@@ -2,8 +2,8 @@ import os
 import sys
 import re
 
-# filePath = './server.log'
-filePath = './highlightClips.log'
+filePath = './server.log'
+# filePath = './highlightClips.log'
 
 lineNum = 0
 maxLine = False

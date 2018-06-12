@@ -10,20 +10,21 @@ class SentimentAnalysis:
         self.posdict = set()
         self.negdict = set()
 
-        dictsAndFiles = [(self.mostdict, 'most.txt'),
-                         (self.verydict, 'very.txt'),
-                         (self.moredict, 'more.txt'),
-                         (self.ishdict, 'ish.txt'),
-                         (self.insufficientdict, 'insufficient.txt'),
-                         (self.inversedict, 'inverse.txt'),
-                         (self.posdict, 'positive.txt'),
-                         (self.negdict, 'negative.txt'),
+        dictsAndFiles = [(self.mostdict, ['sentimentCN/most.txt']),
+                         (self.verydict, ['sentimentCN/very.txt']),
+                         (self.moredict, ['sentimentCN/more.txt']),
+                         (self.ishdict,  ['sentimentCN/ish.txt']),
+                         (self.insufficientdict,    ['sentimentCN/insufficient.txt']),
+                         (self.inversedict,         ['sentimentCN/inverse.txt']),
+                         (self.posdict,             ['sentimentCN/positive.txt', 'barrage.positive.dict.utf8']),
+                         (self.negdict,             ['sentimentCN/negative.txt', 'barrage.negative.dict.utf8']),
                         ]   
         for df in dictsAndFiles:
-            with open(filePath + "/" + df[1], 'rb') as f:
-                for line in f.readlines():
-                    line = line.strip()
-                    df[0].add(line.decode('utf-8'))
+            for dic in df[1]:
+                with open(filePath + "/" + dic, 'rb') as f:
+                    for line in f.readlines():
+                        line = line.strip()
+                        df[0].add(line.decode('utf-8'))
 
     def judgeodd(self, num):
         if (num/2)*2 == num:
