@@ -1,5 +1,19 @@
+
+# personal file
+origin.server.log
+origin.2018-06-12.log
+label/*
 *.temp
+temp
+temp/*
 *.priv
-*.swp
 xiaowei*
+
+
+# vim temp file
+*.swp
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
 
