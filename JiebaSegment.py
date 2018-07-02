@@ -7,12 +7,17 @@ import SentimentAnalysis as localsa
 from BarrageTool import BarrageTool
 
 DICT_PATH='./dict/'
-jieba.load_userdict(DICT_PATH + '/xiaowei.commonWord.dict.utf8.priv')
+jieba.load_userdict(DICT_PATH + '/common.jieba.complement.priv')
 jieba.load_userdict(DICT_PATH + '/barrage.commoWord.dict.utf8')
 jieba.load_userdict(DICT_PATH + '/sentimentCN/negative.txt')
 jieba.load_userdict(DICT_PATH + '/barrage.negative.dict.utf8')
 jieba.load_userdict(DICT_PATH + '/sentimentCN/positive.txt')
 jieba.load_userdict(DICT_PATH + '/barrage.positive.dict.utf8')
+
+def jiegSeg(sentence):
+    segResult = list(jieba.cut(sentence))
+    return segResult
+
 
 def readMeaningless(filePath):
     meaninglessSet = set()
@@ -32,8 +37,9 @@ def getRidInSet(words, wordsSet):
 
 meaninglessPath = DICT_PATH + "/xiaowei.meaningless.dict.utf8.priv"
 meaninglessPath_2 = DICT_PATH + "/barrage.meaningless.dict.utf8"
-meaninglessSet = readMeaningless(meaninglessPath)
-meaninglessSet |= readMeaningless(meaninglessPath_2)
+meaninglessSet = set()
+# meaninglessSet = readMeaningless(meaninglessPath)
+# meaninglessSet |= readMeaningless(meaninglessPath_2)
 
 localbt = BarrageTool('./dict/barrage.filter.sent.utf8')
 
@@ -79,6 +85,7 @@ def emotionDetect(filePath, outPath):
             sentenceTmp = sentence
             sentence = re.sub('\W', ' ', sentence).strip()   # 替换掉非文字
             if not localbt.isValidSent(sentence):
+                print('[Invalid]' + sentenceTmp)
                 continue
 
             sentenceTmp = re.sub('[\[\]]', '"', sentenceTmp)   
