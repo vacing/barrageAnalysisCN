@@ -1,17 +1,28 @@
 import os
 import sys
 import re
+from collections import Counter
 
-from BarrageTool import BarrageTool
+import LocalTool
+from LocalTool import BarrageTool
 from JiebaSegment import jiegSeg
 import SentimentAnalysis as localsa
 
 # filePath = 'temp'
 # filePath = './highlightClips.log'
 DICT_PATH='./dict/'
+wordCount = Counter()
+meaninglessPath = DICT_PATH + "/xiaowei.meaningless.dict.utf8.priv"
+meaninglessPath_2 = DICT_PATH + "/barrage.meaningless.dict.utf8"
+meaninglessSet = set()
+meaninglessSet |= LocalTool.readLinesToSet(meaninglessPath)
+meaninglessSet |= LocalTool.readLinesToSet(meaninglessPath_2)
+
 sa = localsa.SentimentAnalysis(DICT_PATH)
 def sentEmotDetect(sentence):
     segResult = jiegSeg(sentence)
+    segResult = LocalTool.getRidInSet(segResult, meaninglessSet)
+    wordCount.update(segResult)
     score = sa.sentimentScore(segResult)
     return score
 
@@ -111,6 +122,11 @@ if __name__ == '__main__':
         f.write("");
 
     processFile(localbt, filePath, logPath, subPath, inlPath)
+    with open('./tf.temp', 'w') as f:
+        commons = wordCount.most_common(1000)
+        print(commons)
+        for e in [d[0]+":"+str(d[1]) for d in commons]:
+            f.write(e + '\n')
 
     # events = getEventInFile(localbt, filePath)
     # print(events)

@@ -1,6 +1,6 @@
 #-- encoding:utf-8 --
-
 import re
+from collections import Counter
 
 class BarrageTool:
     illegalFiltRe = re.compile('\W')
@@ -69,22 +69,22 @@ class BarrageTool:
         sent = sent.strip()
         return sent
 
-    def readWordsToSet(self, filePath, wordsSet = None):
-        if wordsSet is None:
-            wordsSet = set()
-        with open(filePath, 'rb') as f:
-            for line in f.readlines():
-                line = line.strip()
-                wordsSet.add(line.decode('utf-8'))
-        return wordsSet
+def readLinesToSet(filePath, wordsSet = None):
+    if wordsSet is None:
+        wordsSet = set()
+    with open(filePath, 'rb') as f:
+        for line in f.readlines():
+            line = line.strip()
+            wordsSet.add(line.decode('utf-8'))
+    return wordsSet
 
-    def getRidInSet(self, words, wordsSet):
-        newWords=[]
-        for word in words:
-            if word in wordsSet:
-                continue
-            newWords.append(word)
-        return newWords
+def getRidInSet(words, wordsSet):
+    newWords=[]
+    for word in words:
+        if word in wordsSet or word == ' ':
+            continue
+        newWords.append(word)
+    return newWords
 
 if __name__ == '__main__':
     bt = BarrageTool()
@@ -95,5 +95,4 @@ if __name__ == '__main__':
     sent = 'abc........'
     print(bt.sentPreProcess(sent))
     # print(isValidSent(sent))
-
 

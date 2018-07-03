@@ -4,7 +4,7 @@ import jieba
 import jieba.posseg as pseg
 
 import SentimentAnalysis as localsa
-from BarrageTool import BarrageTool
+from LocalTool import BarrageTool
 
 DICT_PATH='./dict/'
 jieba.load_userdict(DICT_PATH + '/common.jieba.complement.priv')
@@ -17,7 +17,6 @@ jieba.load_userdict(DICT_PATH + '/barrage.positive.dict.utf8')
 def jiegSeg(sentence):
     segResult = list(jieba.cut(sentence))
     return segResult
-
 
 def readMeaningless(filePath):
     meaninglessSet = set()
