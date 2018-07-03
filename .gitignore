@@ -1,13 +1,11 @@
 
 # personal file
-origin.server.log
-origin.2018-06-12.log
+data/*
+dict/*
 label/*
-*.temp
-temp
 temp/*
+*.temp
 *.priv
-xiaowei*
 
 
 # vim temp file

@@ -21,9 +21,10 @@ meaninglessSet |= LocalTool.readLinesToSet(meaninglessPath_2)
 sa = localsa.SentimentAnalysis(DICT_PATH)
 def sentEmotDetect(sentence):
     segResult = jiegSeg(sentence)
-    segResult = LocalTool.getRidInSet(segResult, meaninglessSet)
     wordCount.update(segResult)
     score = sa.sentimentScore(segResult)
+    # get rid of meaningless word before caculate tf
+    segResult = LocalTool.getRidInSet(segResult, meaninglessSet)
     return score
 
 def processFile(localbt, filePath, logPath, subPath, inlPath):
@@ -96,7 +97,15 @@ def getEventInFile(localbt, filePath):
 
     return eventSet
 
+def usage(argNum, usageParam, ieParam):
+    if len(sys.argv) != argNum:
+        print('Usage\t: ' + sys.argv[0] + ' ' + usageParam)
+        print('ie.\t: '    + sys.argv[0] + ' ' + ieParam)
+        sys.exit(1)
+
 if __name__ == '__main__':
+    usage(1 + 1, 'file', 'data/origin.180620-event/merge_467847.txt')
+    
     localbt = BarrageTool('./dict/barrage.filter.sent.utf8')
     tmpPath = './temp/'
 
@@ -110,7 +119,8 @@ if __name__ == '__main__':
     # subPath =   tmpPath + '/origin.sub.server.temp'
     # inlPath =   tmpPath + '/origin.invalid.server.temp'
 
-    filePath = 'origin.180620-event/merge_687423.txt'
+    # filePath = 'data/origin.180620-event/merge_467847.txt'
+    filePath = sys.argv[1]
     logPath =   tmpPath + '/event.180620.log.merge_687423.temp'
     subPath =   tmpPath + '/event.180620.sub.merge_687423.temp'
     inlPath =   tmpPath + '/event.180620.invalid.merge_687423.temp'
@@ -125,7 +135,7 @@ if __name__ == '__main__':
     with open('./tf.temp', 'w') as f:
         commons = wordCount.most_common(1000)
         print(commons)
-        for e in [d[0]+":"+str(d[1]) for d in commons]:
+        for e in [d[0] for d in commons]:
             f.write(e + '\n')
 
     # events = getEventInFile(localbt, filePath)

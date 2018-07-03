@@ -81,7 +81,8 @@ def readLinesToSet(filePath, wordsSet = None):
 def getRidInSet(words, wordsSet):
     newWords=[]
     for word in words:
-        if word in wordsSet or word == ' ':
+        if word in wordsSet \
+                or word == ' ' or word == '　':
             continue
         newWords.append(word)
     return newWords
