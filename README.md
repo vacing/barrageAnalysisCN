@@ -5,4 +5,6 @@
 ```sh
 python logProcess.py server.log | grep -v '[empty] line' > barrage.temp
 python segment.py > seg.temp
+
+yeal刘洋,git账号：xxyliuyang
 ```
