@@ -1,6 +1,6 @@
 import os
-import sys
 import re
+import sys
 from collections import Counter
 
 import LocalTool
@@ -8,9 +8,7 @@ from LocalTool import BarrageTool
 from JiebaSegment import jiegSeg
 import SentimentAnalysis as localsa
 
-# filePath = 'temp'
-# filePath = './highlightClips.log'
-DICT_PATH='./dict/'
+DICT_PATH='/data/barragePriv/dict/'
 wordCount = Counter()
 meaninglessPath = DICT_PATH + "/xiaowei.meaningless.dict.utf8.priv"
 meaninglessPath_2 = DICT_PATH + "/barrage.meaningless.dict.utf8"
@@ -21,19 +19,28 @@ meaninglessSet |= LocalTool.readLinesToSet(meaninglessPath_2)
 sa = localsa.SentimentAnalysis(DICT_PATH)
 def sentEmotDetect(sentence):
     segResult = jiegSeg(sentence)
-    wordCount.update(segResult)
+
+    # [TODO]
+    # call your function here
+    # tuple, (posScore, negScore)
     score = sa.sentimentScore(segResult)
+
     # get rid of meaningless word before caculate tf
     segResult = LocalTool.getRidInSet(segResult, meaninglessSet)
+    wordCount.update(segResult)
+
     return score
 
 def processFile(localbt, filePath, logPath, subPath, inlPath):
     lineNum = 0
     maxLine = False
+
+    # old version log no event
     # barrageReStr = r'[0-9\]: \/]+room\[[0-9]+\] uid\([0-9]+\).*\]: (.*)$'
+    # new version log with event
     barrageReStr = r'[0-9\]: \/]+room\[[0-9]+\] uid\([0-9]+\) +event\[[\w ]*\].*\]: (.*)$'
     barrageRe = re.compile(barrageReStr)
-    with open(filePath, 'rb') as f:
+    with open(filePath, 'rb', encoding="utf-8") as f:
         for line in f.readlines():
             if maxLine and lineNum > maxLine:
                 break;
@@ -104,9 +111,9 @@ def usage(argNum, usageParam, ieParam):
         sys.exit(1)
 
 if __name__ == '__main__':
-    usage(1 + 1, 'file', 'data/origin.180620-event/merge_467847.txt')
+    usage(1 + 1, 'file', '/data/barragePriv/log/origin.180620-event/merge_467847.txt')
     
-    localbt = BarrageTool('./dict/barrage.filter.sent.utf8')
+    localbt = BarrageTool('/data/barragePriv/dict/barrage.filter.sent.utf8')
     tmpPath = './temp/'
 
     # filePath =  './origin.2018-06-12.log'

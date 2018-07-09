@@ -6,7 +6,7 @@ import jieba.posseg as pseg
 import SentimentAnalysis as localsa
 from LocalTool import BarrageTool
 
-DICT_PATH='./dict/'
+DICT_PATH='/data/barragePriv/dict/'
 jieba.load_userdict(DICT_PATH + '/common.jieba.complement.priv')
 jieba.load_userdict(DICT_PATH + '/barrage.commoWord.dict.utf8')
 jieba.load_userdict(DICT_PATH + '/sentimentCN/negative.txt')
@@ -40,7 +40,7 @@ meaninglessSet = set()
 # meaninglessSet = readMeaningless(meaninglessPath)
 # meaninglessSet |= readMeaningless(meaninglessPath_2)
 
-localbt = BarrageTool('./dict/barrage.filter.sent.utf8')
+localbt = BarrageTool(DICT_PATH + '/barrage.filter.sent.utf8')
 
 def fileSeg(filePath, segPath, inlPath, labelStr):
     lineNum = 0
