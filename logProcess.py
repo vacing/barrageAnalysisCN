@@ -23,6 +23,9 @@ def sentEmotDetect(sentence):
     # [TODO]
     # call your function here
     # tuple, (posScore, negScore)
+    # pos: posScore > negScore
+    # neg: posScore < negScore
+    # equ: posScore = negScore
     score = sa.sentimentScore(segResult)
 
     # get rid of meaningless word before caculate tf
