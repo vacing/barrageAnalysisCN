@@ -15,7 +15,7 @@ def plot(pathin, pathout, threshold=500, kmean1=3, kmean2=3):
             break
         fields = line.strip().split()
             
-        if len(fields[0]) > 8:
+        if 'Invalid' in fields[0] or 'Empty' in fields[0]: 
             score = 0
             date0 = fields[0].split(':')[1]
             time0 = fields[1]
