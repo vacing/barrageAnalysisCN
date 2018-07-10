@@ -46,7 +46,8 @@ class BarrageTool:
     def sentPreProcess(self, sent):
         sent = sent.lower()
         sent = re.sub('\[emot:[a-z0-9\]]*', '', sent)   # 
-        sent = re.sub('[.+]*66[693\+]+[\W]*', '666', sent)   # 
+        sent = re.sub('[.+]*66[693\+]+[\W]*', '666', sent)   #
+        sent = re.sub('[.+]*88[893\+]+[\W]*', '888', sent)   #
         sent = re.sub('[…\.。]{2,100}[\W]*', '...', sent)   # 
         sent = re.sub('23{3,100}[\W]*', '2333', sent)   # 
         sent = re.sub('[？\?]{2,100}[\W]*', '??', sent)   # 
